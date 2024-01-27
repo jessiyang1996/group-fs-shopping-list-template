@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react';
 import Header from '../Header/Header.jsx';
 import './App.css';
 import Form from '../Form/Form.jsx';
-import { fetchItems, deleteItems } from '../../AddItemApi/AddItemApi.jsx';
+import {
+  fetchItems,
+  deleteItems,
+  updateItemPurchased,
+} from '../../AddItemApi/AddItemApi.jsx';
 
 function App() {
   // declare our variables
@@ -44,6 +48,18 @@ function App() {
         console.error('ERROR in deleting items', error);
       });
   };
+
+  //Purchased Button
+  const handlePurchasedStatus = (id) => {
+    updateItemPurchased(id)
+      .then((response) => {
+        refreshShoppingList();
+      })
+      .catch((err) => {
+        console.error('Error:', err);
+      });
+  };
+
   // Everything in the return will appear on the DOM
   return (
     <div className="App">
@@ -60,11 +76,18 @@ function App() {
               <p>
                 {itemData.quantity} {itemData.unit}
               </p>
-              <button type="button">Purchased</button>
+              <div>
+                Purchased Status:
+                <i>{itemData.purchased ? 'True' : 'False'}</i>
+              </div>
+              <button
+                type="button"
+                onClick={(event) => handlePurchasedStatus(itemData.id)}>
+                Buy
+              </button>
               <button
                 onClick={(event) => handleDeleteButton(itemData.id)}
-                type="button"
-              >
+                type="button">
                 Delete
               </button>
             </div>
