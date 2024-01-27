@@ -7,7 +7,7 @@ const pool = require('../modules/pool');
 // GET Route - Gabriel
 router.get('/', (req, res) => {
   console.log('in GET request');
-  let queryText = 'SELECT * FROM shopping_list ORDER By;';
+  let queryText = 'SELECT * FROM shopping_list ORDER BY "name";';
 
   pool
     .query(queryText)
